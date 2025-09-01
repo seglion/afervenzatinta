@@ -1,0 +1,23 @@
+# Imagen base de Python
+FROM mcr.microsoft.com/vscode/devcontainers/python:3.12
+
+RUN pip install --no-cache-dir poetry
+
+WORKDIR /workspace
+
+COPY backend/pyproject.toml backend/poetry.lock* ./ 
+
+
+
+
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-root --no-interaction --no-ansi
+
+COPY . .
+
+WORKDIR /workspace/backend
+
+
+
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

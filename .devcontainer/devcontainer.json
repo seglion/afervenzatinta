@@ -1,0 +1,25 @@
+{
+  "name": "Fervenza Dev",
+  "dockerComposeFile": [
+    "../docker/docker-compose.yml"
+  ],
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  // ?? Añade esta línea para instalar la CLI después de crear el contenedor
+  "postCreateCommand": "curl -sSL https://sdk.cloud.google.com | bash -s -- --disable-prompts",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-azuretools.vscode-docker",
+        "ms-python.black-formatter",
+        "charliermarsh.ruff",
+        "njpwerner.autodocstring"
+      ]
+    }
+  },
+
+  "remoteUser": "vscode"
+}
