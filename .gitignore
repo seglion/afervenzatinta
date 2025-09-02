@@ -88,3 +88,9 @@ Thumbs.db
 
 # Docker
 docker-compose.override.yml
+
+
+# Gemini
+.Gemini
+
+GEMINI.md
