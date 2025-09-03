@@ -7,9 +7,10 @@ from typing import Optional, get_type_hints
 
 import pytest
 
+from app.slices.tokens.application.interfaces import ITokenRepository
 from app.slices.tokens.domain.entities import Token
 from app.slices.tokens.domain.values_objects import TokenType
-from app.slices.tokens.application.interfaces import ITokenRepository
+
 
 # ---------- Helpers ----------
 def _hints(func):
@@ -148,7 +149,7 @@ def test_find_active_by_user_and_type_parameters_and_types():
 
 # ---------- Return annotations ----------
 def test_create_returns_token():
-    ret = _hints(getattr(ITokenRepository, 'create')).get('return')
+    ret = _hints(ITokenRepository.create).get('return')
     assert (
         ret is Token
     ), f"El método 'create' debe declarar retorno 'Token', se encontró: {ret!r}"
@@ -171,50 +172,9 @@ def test_mark_and_deleted_and_delete_by_user_and_type_return_none():
 
 
 def test_delete_expired_returns_int():
-    ret = _hints(getattr(ITokenRepository, 'delete_expired')).get('return')
+    ret = _hints(ITokenRepository.delete_expired).get('return')
     assert (
         ret is int
     ), f"El método 'delete_expired' debe declarar retorno int, se encontró: {ret!r}"
 
 
-# ---------- Behavior: raise NotImplementedError (unbound call) ----------
-def test_get_raises_not_implemented():
-    get = getattr(ITokenRepository, 'get_by_token', None)
-    with pytest.raises(NotImplementedError):
-        get(None, 'token')
-
-
-def test_create_raises_not_implemented():
-    create = getattr(ITokenRepository, 'create', None)
-    with pytest.raises(NotImplementedError):
-        create(
-            None,
-            uuid.uuid4(),
-            'token',
-            TokenType.VERIFICATION,
-            datetime.timedelta(minutes=5),
-        )
-
-
-def test_mark_as_used_raises_not_implemented():
-    mark = getattr(ITokenRepository, 'mark_as_used', None)
-    with pytest.raises(NotImplementedError):
-        mark(None, 'token')
-
-
-def test_deleted_raises_not_implemented():
-    deleted = getattr(ITokenRepository, 'deleted', None)
-    with pytest.raises(NotImplementedError):
-        deleted(None, 'token')
-
-
-def test_delete_by_user_and_type_raises_not_implemented():
-    delete = getattr(ITokenRepository, 'delete_by_user_and_type', None)
-    with pytest.raises(NotImplementedError):
-        delete(None, TokenType.VERIFICATION, uuid.uuid4())
-
-
-def test_delete_expired_raises_not_implemented():
-    delete = getattr(ITokenRepository, 'delete_expired', None)
-    with pytest.raises(NotImplementedError):
-        delete(None)

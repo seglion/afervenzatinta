@@ -19,19 +19,19 @@ class ITokenRepository(ABC):
         raise NotImplementedError('Debe implementar el metodo abstracto create')
 
     @abstractmethod
-    def get_by_token(self, token_value: str) -> Optional[Token]:
+    async def  get_by_token(self, token_value: str) -> Optional[Token]:
         raise NotImplementedError('Debe implementar el metodo abstracto get')
 
     @abstractmethod
-    def mark_as_used(self, token: str) -> None:
+    async def mark_as_used(self, token: str) -> None:
         raise NotImplementedError('Debe implementar el metodo abstracto mark_as_used')
 
     @abstractmethod
-    def deleted(self, token: str) -> None:
+    async def deleted(self, token: str) -> None:
         raise NotImplementedError('Debe implementar el metodo abstracto deleted')
 
     @abstractmethod
-    def delete_by_user_and_type(
+    async def delete_by_user_and_type(
         self, token_type: TokenType, user_id: uuid.UUID
     ) -> None:
         raise NotImplementedError(
@@ -39,7 +39,7 @@ class ITokenRepository(ABC):
         )
 
     @abstractmethod
-    def find_active_by_user_and_type(
+    async def find_active_by_user_and_type(
         self, token_type: TokenType, user_id: uuid.UUID
     ) -> Optional[Token]:
         raise NotImplementedError(
@@ -47,5 +47,5 @@ class ITokenRepository(ABC):
         )
 
     @abstractmethod
-    def delete_expired(self) -> int:
+    async def delete_expired(self) -> int:
         raise NotImplementedError('Debe implementar el metodo abstracto delete_expired')
